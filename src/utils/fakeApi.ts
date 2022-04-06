@@ -2,7 +2,8 @@ import { wrapPromise } from './wrapPromise';
 
 export function fetchProfileData() {
   let userPromise = fetchUser();
-  return wrapPromise(userPromise);
+  let textPromise = fetchText();
+  return { user: wrapPromise(userPromise), text: wrapPromise(textPromise) };
 }
 
 function fetchUser(): Promise<{ name: string }> {
@@ -13,6 +14,13 @@ function fetchUser(): Promise<{ name: string }> {
       resolve({
         name: 'im zaraky97',
       });
-    }, 1000);
+    }, 100000);
   });
+}
+
+function fetchText(): Promise<any> {
+  const res = fetch(
+    'https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits'
+  );
+  return res;
 }
